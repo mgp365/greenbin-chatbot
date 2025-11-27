@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="messages" id="messages"></div>
+
+    <div class="centerbox">
+        <input type="text" id="tx1" placeholder="Escribe un mensaje...">
+        <button onclick="gemini()">Enviar</button>
+    </div>
+
+</div>
+
+<script>
+async function gemini() {
+    const msg = document.getElementById("tx1").value;
+    const url = "https://polished-rain-76f9.a00840918.workers.dev/?msg=" + encodeURIComponent(msg);
+    const response = await fetch(url);
+    const text = await response.text();
+
+    const messages = document.getElementById("messages");
+
+    //mensaje del usuario
+    const userBubble = document.createElement("div");
+    userBubble.className = "msg user";
+    userBubble.innerText = msg;
+    messages.appendChild(userBubble);
+
+    //mensaje de la ia
+    const botBubble = document.createElement("div");
+    botBubble.className = "msg bot";
+    botBubble.innerText = text;
+    messages.appendChild(botBubble);
+
+    messages.scrollTop = messages.scrollHeight; // autoscroll
+    document.getElementById("tx1").value = "";
+}
+</script>
+
+</body>
+</html>
